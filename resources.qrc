@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/imagenes">
+        <file>imagen_no_disponible.png</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>
