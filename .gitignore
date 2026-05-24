@@ -1,0 +1,76 @@
+# =========================
+# Qt Creator (user/local)
+# =========================
+*.pro.user*
+*.qbs.user*
+*.creator
+*.creator.user
+*.creator.user.*
+*.files
+*.includes
+
+# Qt Creator config folder (en cualquier nivel)
+.qtcreator/
+.qtcreator
+.qtcreator.ini
+
+# =========================
+# Build folders (monorepo)
+# =========================
+# En raíz
+/build/
+/build*/
+
+# En cualquier subcarpeta
+build/
+build*/
+*/build/
+*/build*/
+
+# =========================
+# CMake / build artifacts
+# =========================
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+Makefile
+*.ninja
+.ninja_deps
+.ninja_log
+
+# =========================
+# Qt generated files
+# =========================
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+
+# =========================
+# Object/binary files
+# =========================
+*.o
+*.obj
+*.so
+*.so.*
+*.dll
+*.dylib
+*.a
+*.lib
+*.exe
+*.out
+*.app
+
+# =========================
+# Common build dirs
+# =========================
+debug/
+release/
+
+# =========================
+# Logs / temp
+# =========================
+*.log
+*.tmp
+*.temp
