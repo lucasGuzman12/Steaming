@@ -6,24 +6,24 @@ TEMPLATE = app
 TARGET = Steaming
 
 SOURCES += \
-    main.cpp \
-    manager.cpp \
-    selectorcuentas.cpp \
-    login.cpp \
-    registro.cpp \
-    principal.cpp \
-    pantallarecomendaciones.cpp \
-    chat.cpp
+    Frontend/main.cpp \
+    Frontend/manager.cpp \
+    Frontend/selectorcuentas.cpp \
+    Frontend/login.cpp \
+    Frontend/registro.cpp \
+    Frontend/principal.cpp \
+    Frontend/pantallarecomendaciones.cpp \
+    Frontend/chat.cpp
 
 HEADERS += \
-    manager.h \
-    selectorcuentas.h \
-    login.h \
-    registro.h \
-    principal.h \
-    recomendacion.h \
-    pantallarecomendaciones.h \
-    chat.h
+    Frontend/manager.h \
+    Frontend/selectorcuentas.h \
+    Frontend/login.h \
+    Frontend/registro.h \
+    Frontend/principal.h \
+    Frontend/recomendacion.h \
+    Frontend/pantallarecomendaciones.h \
+    Frontend/chat.h
 
 RESOURCES += \
     resources.qrc

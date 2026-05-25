@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/new/imagenes">
-        <file>imagen_no_disponible.png</file>
-        <file>logo.png</file>
-        <file>Img-Juegos.png</file>
-        <file>Img-Libros.png</file>
-        <file>Img-Peliculas.png</file>
-        <file>Img-Videos.png</file>
+        <file alias="imagen_no_disponible.png">Imagenes/imagen_no_disponible.png</file>
+        <file alias="logo.png">Imagenes/logo.png</file>
+        <file alias="Img-Juegos.png">Imagenes/Img-Juegos.png</file>
+        <file alias="Img-Libros.png">Imagenes/Img-Libros.png</file>
+        <file alias="Img-Peliculas.png">Imagenes/Img-Peliculas.png</file>
+        <file alias="Img-Videos.png">Imagenes/Img-Videos.png</file>
     </qresource>
 </RCC>
