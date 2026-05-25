@@ -12,10 +12,7 @@ SOURCES += \
     login.cpp \
     registro.cpp \
     principal.cpp \
-    juegos.cpp \
-    peliculas.cpp \
-    libros.cpp \
-    videos.cpp \
+    pantallarecomendaciones.cpp \
     chat.cpp
 
 HEADERS += \
@@ -24,10 +21,8 @@ HEADERS += \
     login.h \
     registro.h \
     principal.h \
-    juegos.h \
-    peliculas.h \
-    libros.h \
-    videos.h \
+    recomendacion.h \
+    pantallarecomendaciones.h \
     chat.h
 
 RESOURCES += \

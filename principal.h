@@ -26,7 +26,7 @@ private slots:
     void seleccionarVideos();
 
 private:
-    QPushButton *crearBloque(const QString &titulo, const QString &descripcion);
+    QPushButton *crearBloque(const QString &titulo, const QString &rutaImagen);
 };
 
 #endif // PRINCIPAL_H

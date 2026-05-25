@@ -2,16 +2,15 @@
 
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QVector>
 
 #include "chat.h"
-#include "juegos.h"
-#include "libros.h"
 #include "login.h"
-#include "peliculas.h"
+#include "pantallarecomendaciones.h"
 #include "principal.h"
+#include "recomendacion.h"
 #include "registro.h"
 #include "selectorcuentas.h"
-#include "videos.h"
 
 Manager::Manager(QWidget *parent)
     : QWidget(parent)
@@ -26,10 +25,26 @@ Manager::Manager(QWidget *parent)
     login = new Login;
     registro = new Registro;
     principal = new Principal;
-    juegos = new Juegos;
-    peliculas = new Peliculas;
-    libros = new Libros;
-    videos = new Videos;
+    juegos = new PantallaRecomendaciones("Juegos recomendados", QVector<Recomendacion>(40, Recomendacion {
+        "Recomendacion base",
+        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
+        ""
+    }));
+    peliculas = new PantallaRecomendaciones("Peliculas recomendadas", QVector<Recomendacion>(40, Recomendacion {
+        "Recomendacion base",
+        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
+        ""
+    }));
+    libros = new PantallaRecomendaciones("Libros recomendados", QVector<Recomendacion>(40, Recomendacion {
+        "Recomendacion base",
+        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
+        ""
+    }));
+    videos = new PantallaRecomendaciones("Videos recomendados", QVector<Recomendacion>(40, Recomendacion {
+        "Recomendacion base",
+        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
+        ""
+    }));
 
     pantallas->addWidget(selectorCuentas);
     pantallas->addWidget(login);

@@ -2,5 +2,9 @@
     <qresource prefix="/new/imagenes">
         <file>imagen_no_disponible.png</file>
         <file>logo.png</file>
+        <file>Img-Juegos.png</file>
+        <file>Img-Libros.png</file>
+        <file>Img-Peliculas.png</file>
+        <file>Img-Videos.png</file>
     </qresource>
 </RCC>

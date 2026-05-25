@@ -4,15 +4,12 @@
 #include <QWidget>
 
 class Chat;
-class Juegos;
-class Libros;
 class Login;
-class Peliculas;
+class PantallaRecomendaciones;
 class Principal;
 class QStackedWidget;
 class Registro;
 class SelectorCuentas;
-class Videos;
 
 class Manager : public QWidget
 {
@@ -39,10 +36,10 @@ private:
     Login *login;
     Registro *registro;
     Principal *principal;
-    Juegos *juegos;
-    Peliculas *peliculas;
-    Libros *libros;
-    Videos *videos;
+    PantallaRecomendaciones *juegos;
+    PantallaRecomendaciones *peliculas;
+    PantallaRecomendaciones *libros;
+    PantallaRecomendaciones *videos;
 
     void cambiarPantalla(QWidget *pantalla, bool mostrarChat);
 };
