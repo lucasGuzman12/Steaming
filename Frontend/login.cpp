@@ -21,14 +21,17 @@ Login::Login(QWidget *parent)
     subtitulo->setAlignment(Qt::AlignCenter);
     subtitulo->setObjectName("subtitulo");
 
-    campoUsuario = new QLineEdit;
-    campoUsuario->setPlaceholderText("Usuario");
+    campoEmail = new QLineEdit;
+    campoEmail->setPlaceholderText("Mail");
 
     campoContrasena = new QLineEdit;
     campoContrasena->setPlaceholderText("Contrasena");
     campoContrasena->setEchoMode(QLineEdit::Password);
 
     botonIngresar = new QPushButton("Ingresar");
+    botonVolver = new QPushButton("Volver a Perfiles");
+    botonVolver->setObjectName("botonVolver");
+    botonVolver->setCursor(Qt::PointingHandCursor);
     botonRegistro = new QPushButton("Registrate aqui");
     botonRegistro->setObjectName("linkRegistro");
     botonRegistro->setCursor(Qt::PointingHandCursor);
@@ -47,10 +50,11 @@ Login::Login(QWidget *parent)
     formulario->addWidget(titulo);
     formulario->addWidget(subtitulo);
     formulario->addSpacing(16);
-    formulario->addWidget(campoUsuario);
+    formulario->addWidget(campoEmail);
     formulario->addWidget(campoContrasena);
     formulario->addWidget(botonIngresar);
     formulario->addLayout(layoutRegistro);
+    formulario->addWidget(botonVolver);
     formulario->setContentsMargins(80, 40, 80, 40);
     formulario->setSpacing(12);
 
@@ -76,21 +80,24 @@ Login::Login(QWidget *parent)
         "QLineEdit::placeholder { color: #7e8aa8; }"
         "QPushButton { background: #161f33; color: #e8f7ff; border: 1px solid #00e5ff; border-radius: 7px; padding: 11px; font-size: 15px; font-weight: bold; }"
         "QPushButton:hover { background: #00e5ff; color: #070a12; border: 1px solid #9dff00; }"
+        "#botonVolver { border: 1px solid #ff3df2; }"
+        "#botonVolver:hover { background: #ff3df2; color: #070a12; border: 1px solid #00e5ff; }"
         "#linkRegistro { background: transparent; color: #00e5ff; border: none; padding: 0; font-size: 14px; font-weight: bold; }"
         "#linkRegistro:hover { color: #9dff00; text-decoration: underline; }"
     );
 
+    connect(botonVolver, SIGNAL(clicked()), this, SLOT(solicitarSelector()));
     connect(botonIngresar, SIGNAL(clicked()), this, SLOT(intentarIngresar()));
     connect(botonRegistro, SIGNAL(clicked()), this, SLOT(solicitarRegistro()));
 }
 
 void Login::intentarIngresar()
 {
-    QString usuario = campoUsuario->text().trimmed();
+    QString email = campoEmail->text().trimmed();
     QString contrasena = campoContrasena->text();
 
-    if (usuario.isEmpty() || contrasena.isEmpty()) {
-        QMessageBox::warning(this, "Datos incompletos", "Ingresa usuario y contrasena.");
+    if (email.isEmpty() || contrasena.isEmpty()) {
+        QMessageBox::warning(this, "Datos incompletos", "Ingresa mail y contrasena.");
         return;
     }
 
@@ -101,4 +108,9 @@ void Login::intentarIngresar()
 void Login::solicitarRegistro()
 {
     emit abrirRegistro();
+}
+
+void Login::solicitarSelector()
+{
+    emit volverSelector();
 }

@@ -22,8 +22,11 @@ Registro::Registro(QWidget *parent)
     campoApellido = new QLineEdit;
     campoApellido->setPlaceholderText("Apellido");
 
+    campoUsername = new QLineEdit;
+    campoUsername->setPlaceholderText("Username");
+
     campoEmail = new QLineEdit;
-    campoEmail->setPlaceholderText("Email");
+    campoEmail->setPlaceholderText("Mail");
 
     campoContrasena = new QLineEdit;
     campoContrasena->setPlaceholderText("Contrasena");
@@ -31,6 +34,10 @@ Registro::Registro(QWidget *parent)
 
     campoSteamId = new QLineEdit;
     campoSteamId->setPlaceholderText("ID de Steam");
+
+    campoOpenAiKey = new QLineEdit;
+    campoOpenAiKey->setPlaceholderText("API key de OpenAI");
+    campoOpenAiKey->setEchoMode(QLineEdit::Password);
 
     botonRegistrar = new QPushButton("Registrar");
     botonVolver = new QPushButton("Volver al login");
@@ -40,12 +47,14 @@ Registro::Registro(QWidget *parent)
     formulario->addSpacing(16);
     formulario->addWidget(campoNombre);
     formulario->addWidget(campoApellido);
+    formulario->addWidget(campoUsername);
     formulario->addWidget(campoEmail);
     formulario->addWidget(campoContrasena);
     formulario->addWidget(campoSteamId);
+    formulario->addWidget(campoOpenAiKey);
     formulario->addWidget(botonRegistrar);
     formulario->addWidget(botonVolver);
-    formulario->setContentsMargins(80, 40, 80, 40);
+    formulario->setContentsMargins(80, 34, 80, 34);
     formulario->setSpacing(12);
 
     QWidget *panelFormulario = new QWidget;
@@ -78,11 +87,14 @@ void Registro::registrarUsuario()
 {
     QString nombre = campoNombre->text().trimmed();
     QString apellido = campoApellido->text().trimmed();
+    QString username = campoUsername->text().trimmed();
     QString email = campoEmail->text().trimmed();
     QString contrasena = campoContrasena->text();
     QString steamId = campoSteamId->text().trimmed();
+    QString openAiKey = campoOpenAiKey->text().trimmed();
 
-    if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty() || steamId.isEmpty()) {
+    if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() || email.isEmpty()
+        || contrasena.isEmpty() || steamId.isEmpty() || openAiKey.isEmpty()) {
         QMessageBox::warning(this, "Datos incompletos", "Completa todos los campos.");
         return;
     }

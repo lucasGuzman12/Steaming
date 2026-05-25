@@ -72,6 +72,7 @@ Manager::Manager(QWidget *parent)
 
     connect(login, SIGNAL(ingresoCorrecto()), this, SLOT(mostrarPrincipal()));
     connect(login, SIGNAL(abrirRegistro()), this, SLOT(mostrarRegistro()));
+    connect(login, SIGNAL(volverSelector()), this, SLOT(mostrarSelectorCuentas()));
 
     connect(registro, SIGNAL(registroCompletado()), this, SLOT(mostrarLogin()));
     connect(registro, SIGNAL(volverLogin()), this, SLOT(mostrarLogin()));

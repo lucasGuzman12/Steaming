@@ -24,9 +24,11 @@ private slots:
 private:
     QLineEdit *campoNombre;
     QLineEdit *campoApellido;
+    QLineEdit *campoUsername;
     QLineEdit *campoEmail;
     QLineEdit *campoContrasena;
     QLineEdit *campoSteamId;
+    QLineEdit *campoOpenAiKey;
     QPushButton *botonRegistrar;
     QPushButton *botonVolver;
 };

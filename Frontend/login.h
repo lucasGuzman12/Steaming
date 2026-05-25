@@ -16,14 +16,17 @@ public:
 signals:
     void ingresoCorrecto();
     void abrirRegistro();
+    void volverSelector();
 
 private slots:
     void intentarIngresar();
     void solicitarRegistro();
+    void solicitarSelector();
 
 private:
-    QLineEdit *campoUsuario;
+    QLineEdit *campoEmail;
     QLineEdit *campoContrasena;
+    QPushButton *botonVolver;
     QPushButton *botonIngresar;
     QPushButton *botonRegistro;
 };
