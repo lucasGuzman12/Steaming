@@ -6,11 +6,16 @@
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QPixmap>
 #include <QPushButton>
 #include <QSize>
 #include <QSizePolicy>
 #include <QStackedLayout>
+#include <QUrl>
+#include <QVariant>
 #include <QVBoxLayout>
 
 PantallaRecomendaciones::PantallaRecomendaciones(const QString &tituloPantalla,
@@ -22,9 +27,11 @@ PantallaRecomendaciones::PantallaRecomendaciones(const QString &tituloPantalla,
       slideActual(0),
       imagenPrincipal(nullptr),
       tituloPrincipal(nullptr),
+      datoExtraPrincipal(nullptr),
       descripcionPrincipal(nullptr),
       botonAnterior(nullptr),
-      botonSiguiente(nullptr)
+      botonSiguiente(nullptr),
+      networkManager(new QNetworkAccessManager(this))
 {
     setObjectName("pantallaRecomendaciones");
     setAttribute(Qt::WA_StyledBackground, true);
@@ -123,6 +130,7 @@ PantallaRecomendaciones::PantallaRecomendaciones(const QString &tituloPantalla,
         "#degradadoHero { background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(7, 10, 18, 0), stop:0.42 rgba(7, 10, 18, 45), stop:1 rgba(7, 10, 18, 230)); border-radius: 14px; }"
         "#etiquetaPrincipal { color: #9dff00; font-size: 13px; font-weight: bold; }"
         "#tituloPrincipal { color: #00e5ff; font-size: 34px; font-weight: bold; }"
+        "#datoExtraPrincipal { color: #ff3df2; font-size: 15px; font-weight: bold; }"
         "#descripcionPrincipal { color: #e8f7ff; font-size: 17px; }"
         "#tarjetaSecundaria { background: #05070d; border: 1px solid #263859; border-radius: 12px; }"
         "#tarjetaSecundaria:hover { border: 1px solid #ff3df2; }"
@@ -143,6 +151,13 @@ PantallaRecomendaciones::PantallaRecomendaciones(const QString &tituloPantalla,
     actualizarContenido();
 }
 
+void PantallaRecomendaciones::setRecomendaciones(const QVector<Recomendacion> &nuevasRecomendaciones)
+{
+    recomendaciones = nuevasRecomendaciones;
+    slideActual = 0;
+    actualizarContenido();
+}
+
 Recomendacion PantallaRecomendaciones::recomendacionEn(int indice) const
 {
     if (indice >= 0 && indice < recomendaciones.size()) {
@@ -152,6 +167,7 @@ Recomendacion PantallaRecomendaciones::recomendacionEn(int indice) const
     return Recomendacion {
         "Recomendacion pendiente",
         "Todavia no hay datos reales para esta recomendacion. Mas adelante vendran desde el sistema de procesamiento.",
+        "",
         ""
     };
 }
@@ -178,11 +194,17 @@ void PantallaRecomendaciones::actualizarContenido()
     Recomendacion principal = recomendacionDelSlide(0);
 
     if (imagenPrincipal != nullptr) {
-        imagenPrincipal->setPixmap(cargarImagen(principal.rutaImagen, 980, 520));
+        cargarImagenEnLabel(imagenPrincipal, principal.imagen, 980, 520);
     }
 
     if (tituloPrincipal != nullptr) {
         tituloPrincipal->setText(principal.titulo);
+    }
+
+    if (datoExtraPrincipal != nullptr) {
+        datoExtraPrincipal->setText(principal.dato_extra.trimmed().isEmpty()
+            ? "Dato destacado"
+            : principal.dato_extra);
     }
 
     if (descripcionPrincipal != nullptr) {
@@ -193,7 +215,7 @@ void PantallaRecomendaciones::actualizarContenido()
         Recomendacion secundaria = recomendacionDelSlide(i + 1);
 
         if (i < imagenesSecundarias.size() && imagenesSecundarias[i] != nullptr) {
-            imagenesSecundarias[i]->setPixmap(cargarImagen(secundaria.rutaImagen, 260, 130));
+            cargarImagenEnLabel(imagenesSecundarias[i], secundaria.imagen, 260, 130);
         }
 
         if (titulosSecundarios[i] != nullptr) {
@@ -215,19 +237,67 @@ void PantallaRecomendaciones::actualizarBotonesNavegacion()
     }
 }
 
-QPixmap PantallaRecomendaciones::cargarImagen(const QString &rutaImagen, int ancho, int alto) const
+QPixmap PantallaRecomendaciones::cargarImagenLocal(const QString &imagen, int ancho, int alto) const
 {
-    QString ruta = rutaImagen.trimmed().isEmpty()
+    QString ruta = imagen.trimmed().isEmpty()
         ? ":/new/imagenes/imagen_no_disponible.png"
-        : rutaImagen;
+        : imagen;
 
-    QPixmap imagen(ruta);
+    QPixmap pixmap(ruta);
 
-    if (imagen.isNull()) {
-        imagen.load(":/new/imagenes/imagen_no_disponible.png");
+    if (pixmap.isNull()) {
+        pixmap.load(":/new/imagenes/imagen_no_disponible.png");
     }
 
-    return imagen.scaled(ancho, alto, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    return pixmap.scaled(ancho, alto, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+}
+
+void PantallaRecomendaciones::cargarImagenEnLabel(QLabel *label, const QString &imagen, int ancho, int alto)
+{
+    if (label == nullptr) {
+        return;
+    }
+
+    const QString imagenNormalizada = imagen.trimmed();
+    const QUrl url(imagenNormalizada);
+    label->setProperty("imagenActual", imagenNormalizada);
+
+    if (!url.isValid() || !url.scheme().startsWith("http")) {
+        label->setPixmap(cargarImagenLocal(imagenNormalizada, ancho, alto));
+        return;
+    }
+
+    label->setPixmap(cargarImagenLocal(QString(), ancho, alto));
+
+    QNetworkRequest request(url);
+    request.setAttribute(
+        QNetworkRequest::RedirectPolicyAttribute,
+        QNetworkRequest::NoLessSafeRedirectPolicy
+    );
+    request.setRawHeader("User-Agent", "Mozilla/5.0");
+
+    QNetworkReply *reply = networkManager->get(request);
+    connect(reply, &QNetworkReply::finished, this, [this, reply, label, imagenNormalizada, ancho, alto]() {
+        if (label->property("imagenActual").toString() != imagenNormalizada) {
+            reply->deleteLater();
+            return;
+        }
+
+        QPixmap pixmap;
+
+        if (reply->error() == QNetworkReply::NoError) {
+            pixmap.loadFromData(reply->readAll());
+        }
+
+        if (pixmap.isNull()) {
+            pixmap = cargarImagenLocal(QString(), ancho, alto);
+        } else {
+            pixmap = pixmap.scaled(ancho, alto, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        }
+
+        label->setPixmap(pixmap);
+        reply->deleteLater();
+    });
 }
 
 QFrame *PantallaRecomendaciones::crearHero()
@@ -253,6 +323,11 @@ QFrame *PantallaRecomendaciones::crearHero()
     tituloPrincipal->setWordWrap(true);
     aplicarSombra(tituloPrincipal, 18, 2);
 
+    datoExtraPrincipal = new QLabel;
+    datoExtraPrincipal->setObjectName("datoExtraPrincipal");
+    datoExtraPrincipal->setWordWrap(true);
+    aplicarSombra(datoExtraPrincipal, 14, 1);
+
     descripcionPrincipal = new QLabel;
     descripcionPrincipal->setObjectName("descripcionPrincipal");
     descripcionPrincipal->setWordWrap(true);
@@ -262,6 +337,7 @@ QFrame *PantallaRecomendaciones::crearHero()
     layoutTexto->addStretch();
     layoutTexto->addWidget(etiqueta);
     layoutTexto->addWidget(tituloPrincipal);
+    layoutTexto->addWidget(datoExtraPrincipal);
     layoutTexto->addWidget(descripcionPrincipal);
     layoutTexto->setContentsMargins(28, 120, 28, 28);
     layoutTexto->setSpacing(6);

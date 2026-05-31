@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#include "PaqueteRecomendaciones.h"
+#include "usuario.h"
+
 class Chat;
 class Login;
 class PantallaRecomendaciones;
@@ -17,6 +20,11 @@ class Manager : public QWidget
 
 public:
     explicit Manager(QWidget *parent = nullptr);
+
+    Usuario getUsuarioActual() const;
+    PaqueteRecomendaciones getPaqueteRecomendacionesActual() const;
+    void setUsuarioActual(const Usuario &usuario);
+    void setPaqueteRecomendacionesActual(const PaqueteRecomendaciones &paquete);
 
 public slots:
     void mostrarSelectorCuentas();
@@ -40,6 +48,9 @@ private:
     PantallaRecomendaciones *peliculas;
     PantallaRecomendaciones *libros;
     PantallaRecomendaciones *videos;
+
+    Usuario usuarioActual;
+    PaqueteRecomendaciones paqueteRecomendacionesActual;
 
     void cambiarPantalla(QWidget *pantalla, bool mostrarChat);
 };

@@ -8,8 +8,7 @@
 #include <QJsonObject>
 #include <QString>
 #include <QStringList>
-
-#include <vector>
+#include <QVector>
 
 #include "ApiChatGpt.h"
 #include "ApiLibros.h"
@@ -147,9 +146,9 @@ private:
     // Transformacion de biblioteca a contexto y conversiones JSON/modelo.
     QJsonObject construirContextoSteam(const QJsonObject &biblioteca) const;
     QString listaComoTexto(const QJsonArray &array) const;
-    QJsonArray peliculasAJson(const std::vector<Pelicula> &peliculas) const;
+    QJsonArray peliculasAJson(const QVector<Pelicula> &peliculas) const;
     QString vectorPeliculasComoTexto(
-        const std::vector<Pelicula> &peliculas
+        const QVector<Pelicula> &peliculas
     ) const;
     bool tieneCantidadMinimaPorCategoria(
         const QJsonObject &recomendaciones,
@@ -164,10 +163,10 @@ private:
     Pelicula peliculaDesdeJson(const QJsonObject &objeto) const;
     Juego juegoDesdeJson(const QJsonObject &objeto) const;
     Video videoDesdeJson(const QJsonObject &objeto) const;
-    std::vector<Libro> librosDesdeArray(const QJsonArray &array) const;
-    std::vector<Pelicula> peliculasDesdeArray(const QJsonArray &array) const;
-    std::vector<Juego> juegosDesdeArray(const QJsonArray &array) const;
-    std::vector<Video> videosDesdeArray(const QJsonArray &array) const;
+    QVector<Libro> librosDesdeArray(const QJsonArray &array) const;
+    QVector<Pelicula> peliculasDesdeArray(const QJsonArray &array) const;
+    QVector<Juego> juegosDesdeArray(const QJsonArray &array) const;
+    QVector<Video> videosDesdeArray(const QJsonArray &array) const;
     // Hidrata sugerencias con detalle real desde las APIs de contenido.
     QJsonArray hidratarLibros(const QJsonArray &sugerencias);
     QJsonArray hidratarPeliculas(const QJsonArray &sugerencias);

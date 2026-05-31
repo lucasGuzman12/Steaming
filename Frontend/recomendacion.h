@@ -7,7 +7,8 @@ struct Recomendacion
 {
     QString titulo;
     QString descripcion;
-    QString rutaImagen;
+    QString imagen;
+    QString dato_extra;
 };
 
 #endif // RECOMENDACION_H

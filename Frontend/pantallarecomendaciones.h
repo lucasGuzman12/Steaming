@@ -8,6 +8,7 @@
 
 class QLabel;
 class QFrame;
+class QNetworkAccessManager;
 class QPixmap;
 class QPushButton;
 
@@ -19,6 +20,8 @@ public:
     explicit PantallaRecomendaciones(const QString &tituloPantalla,
                                      const QVector<Recomendacion> &recomendaciones,
                                      QWidget *parent = nullptr);
+
+    void setRecomendaciones(const QVector<Recomendacion> &nuevasRecomendaciones);
 
 signals:
     void volverPrincipal();
@@ -35,18 +38,21 @@ private:
 
     QLabel *imagenPrincipal;
     QLabel *tituloPrincipal;
+    QLabel *datoExtraPrincipal;
     QLabel *descripcionPrincipal;
     QVector<QLabel *> imagenesSecundarias;
     QVector<QLabel *> titulosSecundarios;
     QPushButton *botonAnterior;
     QPushButton *botonSiguiente;
+    QNetworkAccessManager *networkManager;
 
     Recomendacion recomendacionEn(int indice) const;
     Recomendacion recomendacionDelSlide(int posicion) const;
     int cantidadSlides() const;
     void actualizarContenido();
     void actualizarBotonesNavegacion();
-    QPixmap cargarImagen(const QString &rutaImagen, int ancho, int alto) const;
+    QPixmap cargarImagenLocal(const QString &imagen, int ancho, int alto) const;
+    void cargarImagenEnLabel(QLabel *label, const QString &imagen, int ancho, int alto);
     QFrame *crearHero();
     QFrame *crearCajaSecundaria();
     void aplicarSombra(QLabel *label, int blur, int offsetY);

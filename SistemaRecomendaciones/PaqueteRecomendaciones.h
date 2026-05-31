@@ -3,15 +3,13 @@
 
 // Agrupa un conjunto completo de recomendaciones ya convertidas a modelos
 // nativos de C++ para consumirlas sin trabajar directamente con JSON.
+#include <QVector>
 #include <QString>
-
-#include <vector>
 
 #include "Juego.h"
 #include "Libro.h"
 #include "Pelicula.h"
 #include "Video.h"
-using namespace std;
 
 // Contenedor de alto nivel que resume el resultado del recomendador.
 class PaqueteRecomendaciones
@@ -21,10 +19,10 @@ public:
         const QString &id = QString(),
         bool ok = true,
         const QString &error = QString(),
-        const  vector<Juego> &juegos = {},
-        const  vector<Libro> &libros = {},
-        const  vector<Pelicula> &peliculas = {},
-        const  vector<Video> &videos = {}
+        const QVector<Juego> &juegos = {},
+        const QVector<Libro> &libros = {},
+        const QVector<Pelicula> &peliculas = {},
+        const QVector<Video> &videos = {}
     )
         : id(id),
           ok(ok),
@@ -39,10 +37,10 @@ public:
     QString get_id() const { return id; }
     bool get_ok() const { return ok; }
     QString get_error() const { return error; }
-     vector<Juego> get_juegos() const { return vector_juegos; }
-     vector<Libro> get_libros() const { return vector_libros; }
-     vector<Pelicula> get_peliculas() const { return vector_peliculas; }
-     vector<Video> get_videos() const { return vector_videos; }
+    QVector<Juego> get_juegos() const { return vector_juegos; }
+    QVector<Libro> get_libros() const { return vector_libros; }
+    QVector<Pelicula> get_peliculas() const { return vector_peliculas; }
+    QVector<Video> get_videos() const { return vector_videos; }
 
     void set_id(const QString &nuevoId) { id = nuevoId; }
     void set_ok(bool nuevoOk) { ok = nuevoOk; }
@@ -52,10 +50,10 @@ private:
     QString id;
     bool ok;
     QString error;
-     vector<Juego> vector_juegos;
-     vector<Libro> vector_libros;
-     vector<Pelicula> vector_peliculas;
-     vector<Video> vector_videos;
+    QVector<Juego> vector_juegos;
+    QVector<Libro> vector_libros;
+    QVector<Pelicula> vector_peliculas;
+    QVector<Video> vector_videos;
 };
 
 #endif // PAQUETERECOMENDACIONES_H

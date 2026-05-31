@@ -5,6 +5,7 @@
 #include <QVector>
 
 #include "chat.h"
+#include "conversorrecomendaciones.h"
 #include "login.h"
 #include "pantallarecomendaciones.h"
 #include "principal.h"
@@ -25,26 +26,10 @@ Manager::Manager(QWidget *parent)
     login = new Login;
     registro = new Registro;
     principal = new Principal;
-    juegos = new PantallaRecomendaciones("Juegos recomendados", QVector<Recomendacion>(40, Recomendacion {
-        "Recomendacion base",
-        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
-        ""
-    }));
-    peliculas = new PantallaRecomendaciones("Peliculas recomendadas", QVector<Recomendacion>(40, Recomendacion {
-        "Recomendacion base",
-        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
-        ""
-    }));
-    libros = new PantallaRecomendaciones("Libros recomendados", QVector<Recomendacion>(40, Recomendacion {
-        "Recomendacion base",
-        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
-        ""
-    }));
-    videos = new PantallaRecomendaciones("Videos recomendados", QVector<Recomendacion>(40, Recomendacion {
-        "Recomendacion base",
-        "Descripcion temporal de la recomendacion. Mas adelante estos datos vendran del sistema de recomendaciones.",
-        ""
-    }));
+    juegos = new PantallaRecomendaciones("Juegos recomendados", QVector<Recomendacion>());
+    peliculas = new PantallaRecomendaciones("Peliculas recomendadas", QVector<Recomendacion>());
+    libros = new PantallaRecomendaciones("Libros recomendados", QVector<Recomendacion>());
+    videos = new PantallaRecomendaciones("Videos recomendados", QVector<Recomendacion>());
 
     pantallas->addWidget(selectorCuentas);
     pantallas->addWidget(login);
@@ -90,6 +75,26 @@ Manager::Manager(QWidget *parent)
     mostrarSelectorCuentas();
 }
 
+Usuario Manager::getUsuarioActual() const
+{
+    return usuarioActual;
+}
+
+PaqueteRecomendaciones Manager::getPaqueteRecomendacionesActual() const
+{
+    return paqueteRecomendacionesActual;
+}
+
+void Manager::setUsuarioActual(const Usuario &usuario)
+{
+    usuarioActual = usuario;
+}
+
+void Manager::setPaqueteRecomendacionesActual(const PaqueteRecomendaciones &paquete)
+{
+    paqueteRecomendacionesActual = paquete;
+}
+
 void Manager::mostrarSelectorCuentas()
 {
     cambiarPantalla(selectorCuentas, false);
@@ -112,21 +117,33 @@ void Manager::mostrarPrincipal()
 
 void Manager::mostrarJuegos()
 {
+    juegos->setRecomendaciones(
+        ConversorRecomendaciones::convertirJuegos(paqueteRecomendacionesActual.get_juegos())
+    );
     cambiarPantalla(juegos, true);
 }
 
 void Manager::mostrarPeliculas()
 {
+    peliculas->setRecomendaciones(
+        ConversorRecomendaciones::convertirPeliculas(paqueteRecomendacionesActual.get_peliculas())
+    );
     cambiarPantalla(peliculas, true);
 }
 
 void Manager::mostrarLibros()
 {
+    libros->setRecomendaciones(
+        ConversorRecomendaciones::convertirLibros(paqueteRecomendacionesActual.get_libros())
+    );
     cambiarPantalla(libros, true);
 }
 
 void Manager::mostrarVideos()
 {
+    videos->setRecomendaciones(
+        ConversorRecomendaciones::convertirVideos(paqueteRecomendacionesActual.get_videos())
+    );
     cambiarPantalla(videos, true);
 }
 

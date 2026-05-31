@@ -860,7 +860,7 @@ QString Recomendador::listaComoTexto(const QJsonArray &array) const
 }
 
 QJsonArray Recomendador::peliculasAJson(
-    const std::vector<Pelicula> &peliculas
+    const QVector<Pelicula> &peliculas
 ) const
 {
     QJsonArray resultados;
@@ -871,7 +871,7 @@ QJsonArray Recomendador::peliculasAJson(
 }
 
 QString Recomendador::vectorPeliculasComoTexto(
-    const std::vector<Pelicula> &peliculas
+    const QVector<Pelicula> &peliculas
 ) const
 {
     const QJsonArray peliculasJson = peliculasAJson(peliculas);
@@ -979,57 +979,57 @@ Video Recomendador::videoDesdeJson(const QJsonObject &objeto) const
     );
 }
 
-std::vector<Libro> Recomendador::librosDesdeArray(
+QVector<Libro> Recomendador::librosDesdeArray(
     const QJsonArray &array
 ) const
 {
-    std::vector<Libro> libros;
+    QVector<Libro> libros;
     libros.reserve(array.size());
 
     for (const QJsonValue &valor : array) {
-        libros.push_back(libroDesdeJson(valor.toObject()));
+        libros.append(libroDesdeJson(valor.toObject()));
     }
 
     return libros;
 }
 
-std::vector<Pelicula> Recomendador::peliculasDesdeArray(
+QVector<Pelicula> Recomendador::peliculasDesdeArray(
     const QJsonArray &array
 ) const
 {
-    std::vector<Pelicula> peliculas;
+    QVector<Pelicula> peliculas;
     peliculas.reserve(array.size());
 
     for (const QJsonValue &valor : array) {
-        peliculas.push_back(peliculaDesdeJson(valor.toObject()));
+        peliculas.append(peliculaDesdeJson(valor.toObject()));
     }
 
     return peliculas;
 }
 
-std::vector<Juego> Recomendador::juegosDesdeArray(
+QVector<Juego> Recomendador::juegosDesdeArray(
     const QJsonArray &array
 ) const
 {
-    std::vector<Juego> juegos;
+    QVector<Juego> juegos;
     juegos.reserve(array.size());
 
     for (const QJsonValue &valor : array) {
-        juegos.push_back(juegoDesdeJson(valor.toObject()));
+        juegos.append(juegoDesdeJson(valor.toObject()));
     }
 
     return juegos;
 }
 
-std::vector<Video> Recomendador::videosDesdeArray(
+QVector<Video> Recomendador::videosDesdeArray(
     const QJsonArray &array
 ) const
 {
-    std::vector<Video> videos;
+    QVector<Video> videos;
     videos.reserve(array.size());
 
     for (const QJsonValue &valor : array) {
-        videos.push_back(videoDesdeJson(valor.toObject()));
+        videos.append(videoDesdeJson(valor.toObject()));
     }
 
     return videos;

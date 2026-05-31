@@ -24,6 +24,7 @@
 #include <QPushButton>
 #include <QSize>
 #include <QTextEdit>
+#include <QVector>
 #include <QVBoxLayout>
 using namespace std;
 
@@ -507,7 +508,7 @@ void MainWidget::onDemoPaquetePeliculasClicked()
 
     const PaqueteRecomendaciones paquete =
         recomendador->get_paquete_recomendaciones(steamId, 5);
-    const std::vector<Pelicula> peliculas = paquete.get_peliculas();
+    const QVector<Pelicula> peliculas = paquete.get_peliculas();
     const QString contenidoVector =
         recomendador->construirSalidaVectorPeliculas(paquete);
 
